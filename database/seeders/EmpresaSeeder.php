@@ -22,7 +22,7 @@ class EmpresaSeeder extends Seeder
             ['nombre' => 'Naturgy'],
             ['nombre' => 'Cellnex'],
             ['nombre' => 'Caixabank'],
-            ['nombre' => 'Telefónica'],
+            ['nombre' => 'Telefonica'],
             ['nombre' => 'Repsol'],
             ['nombre' => 'Ferrovial']
         ]);

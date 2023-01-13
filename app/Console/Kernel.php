@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('stocks:create')->everyTwoMinutes()->between('9:00','17:00')->weekdays();
+        $schedule->command('stocks:create')->weekdays()->everyMinute()->timezone('Europe/Madrid');//->between('9:00','17:00');
     }
     
     protected function scheduleTimezone()
@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');
-
+// 
         require base_path('routes/console.php');
     }
 }
