@@ -12,6 +12,7 @@ class Stock extends Model
     protected $fillable = [
         'id_empresa',
         'valor',
+        'fecha'
     ];
 
     public function empresa(){

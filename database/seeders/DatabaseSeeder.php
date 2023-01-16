@@ -2,8 +2,12 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Carbon\Carbon;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Empresa;
+use App\Models\Stock;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,11 +18,34 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+       
+        DB::table('empresas')->insert([
+            ['nombre' => 'Iberdrola'],
+            ['nombre' => 'Inditex'],
+            ['nombre' => 'Banco de Santander'],
+            ['nombre' => 'BBVA'],
+            ['nombre' => 'Naturgy'],
+            ['nombre' => 'Cellnex'],
+            ['nombre' => 'Caixabank'],
+            ['nombre' => 'Telefonica'],
+            ['nombre' => 'Repsol'],
+            ['nombre' => 'Ferrovial']
+        ]);
+        $fecha = Carbon::now('Europe/Madrid');
+        $fecha->subYears(1);
+        $empresas = Empresa::all();
+        while(Carbon::now('Europe/Madrid')->gt($fecha)){
+            foreach($empresas as $empresa){
+                $stock = new Stock;
+                $stock->id_empresa = $empresa->id;
+                $stock->fecha = $fecha->toDateTimeString();
+                ($empresa->stock) ? 
+                $stock->valor = $empresa->stock->valor*(mt_rand(5,15)/10)
+                :
+                $stock->valor = (mt_rand(40,200)/10);
+                $stock->save();
+            }
+            $fecha->addMinute();
+        }
     }
 }
