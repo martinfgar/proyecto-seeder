@@ -38,7 +38,7 @@ class CreateStock extends Command
         foreach($empresas as $empresa){
             $stock = new Stock;
             $stock->empresa_id = $empresa->id;
-            $value = mt_rand(0,10)/10+(sin($now->valueOf()/$function_period**pi()+ mt_rand(-5,5)/10)**2)*$wave_amplitude;
+            $value = mt_rand(0,10)/10+(sin($now->valueOf()/$function_period*pi()+ mt_rand(-2,2)/10)**2)*$wave_amplitude;
             $stock->valor = $value;
             $stock->save();
         }
