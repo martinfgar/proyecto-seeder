@@ -29,14 +29,17 @@ class CreateStock extends Command
      */
     public function handle()
     {
+        $six_months = \Carbon\Carbon::now();
+        $six_months->subMonths(6);
+        $now = \Carbon\Carbon::now();
+        $function_period = $now->valueOf() - $six_months->valueOf(); 
+        $wave_amplitude = 20;
         $empresas = Empresa::all();
         foreach($empresas as $empresa){
             $stock = new Stock;
             $stock->empresa_id = $empresa->id;
-            ($empresa->stock) ? 
-                $stock->valor = $empresa->stock->valor*(mt_rand(5,15)/10)
-                :
-                $stock->valor = (mt_rand(40,200)/10);
+            $value = mt_rand(0,10)/10+(sin($now->valueOf()/$function_period**pi()+ mt_rand(-5,5)/10)**2)*$wave_amplitude;
+            $stock->valor = $value;
             $stock->save();
         }
         return Command::SUCCESS;

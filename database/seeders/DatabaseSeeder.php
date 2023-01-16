@@ -34,15 +34,17 @@ class DatabaseSeeder extends Seeder
         $fecha = Carbon::today('Europe/Madrid');
         $fecha->subYears(1);
         $empresas = Empresa::all();
+        $six_months = \Carbon\Carbon::now();
+        $six_months->subMonths(6);
+        $function_period = \Carbon\Carbon::now()->valueOf() - $six_months->valueOf(); 
+        $wave_amplitude = 20;
         while(Carbon::now('Europe/Madrid')->gt($fecha)){
             foreach($empresas as $empresa){
                 $stock = new Stock;
                 $stock->empresa_id = $empresa->id;
                 $stock->fecha = $fecha->toDateTimeString();
-                ($empresa->stock) ? 
-                $stock->valor = $empresa->stock->valor*(mt_rand(5,15)/10)
-                :
-                $stock->valor = (mt_rand(40,200)/10);
+                $value = mt_rand(0,10)/10+(sin($fecha->valueOf()/$function_period**pi()+ mt_rand(-5,5)/10)**2)*$wave_amplitude;
+                $stock->valor = $value;
                 $stock->save();
             }
             $fecha->addDay();
