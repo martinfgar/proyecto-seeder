@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         DB::table('empresas')->insert([
             ['nombre' => 'Iberdrola'],
             ['nombre' => 'Inditex'],
-            ['nombre' => 'Banco de Santander'],
+            ['nombre' => 'Santander'],
             ['nombre' => 'BBVA'],
             ['nombre' => 'Naturgy'],
             ['nombre' => 'Cellnex'],
@@ -31,13 +31,13 @@ class DatabaseSeeder extends Seeder
             ['nombre' => 'Repsol'],
             ['nombre' => 'Ferrovial']
         ]);
-        $fecha = Carbon::now('Europe/Madrid');
+        $fecha = Carbon::today('Europe/Madrid');
         $fecha->subYears(1);
         $empresas = Empresa::all();
         while(Carbon::now('Europe/Madrid')->gt($fecha)){
             foreach($empresas as $empresa){
                 $stock = new Stock;
-                $stock->id_empresa = $empresa->id;
+                $stock->empresa_id = $empresa->id;
                 $stock->fecha = $fecha->toDateTimeString();
                 ($empresa->stock) ? 
                 $stock->valor = $empresa->stock->valor*(mt_rand(5,15)/10)
@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
                 $stock->valor = (mt_rand(40,200)/10);
                 $stock->save();
             }
-            $fecha->addMinute();
+            $fecha->addDay();
         }
     }
 }
